@@ -2,13 +2,29 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/bloc/bloc_export.dart';
 import 'package:todo_app/todo/todo_view_export.dart';
 import 'package:todo_app/utils/utils_export.dart';
 
 import '../const/const_extention.dart';
 
-class TodoScreen extends StatelessWidget {
+class TodoScreen extends StatefulWidget {
   const TodoScreen({super.key});
+
+  @override
+  State<TodoScreen> createState() => _TodoScreenState();
+}
+
+class _TodoScreenState extends State<TodoScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<NoteBloc>().add(
+          FetchTodoEvent(),
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +42,43 @@ class TodoScreen extends StatelessWidget {
       ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
-        child: const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            NoTodoBodyView(),
-          ],
-        ).padHorizontal(horizontal: 20).padVerticle(verticle: 20),
+        child: BlocBuilder<NoteBloc, NoteState>(
+          builder: (context, state) {
+            // var  s= state.todo;
+
+            return state is TodoLoadingState
+                ? const CircularProgressIndicator()
+                : Column(
+                    children: state.todo!
+                        .asMap()
+                        .entries
+                        .map(
+                          (todo) => Dismissible(
+                            key: Key(todo.value.todoFieldValue!),
+                            onDismissed: (direction) {
+                              context
+                                  .read<NoteBloc>()
+                                  .add(DeleteTodoEvent(todo.value));
+                            },
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                child: Text(todo.value.id.toString()),
+                              ),
+                              title: Text(todo.value.todoFieldValue!),
+                              // subtitle: ,
+                              trailing: SizedBox(
+                                child: CustomSecondryButton(
+                                  label: 'Edit',
+                                  ontap: () {},
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ).padHorizontal(horizontal: 20);
+          },
+        ),
       ),
       // floating btn
       floatingActionButton: FloatingActionButton.extended(

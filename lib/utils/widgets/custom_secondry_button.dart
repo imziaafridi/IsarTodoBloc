@@ -10,20 +10,24 @@ class CustomSecondryButton extends StatelessWidget {
   final Color? color;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: ontap ??
-          () {
-            debugPrint('check call');
-          },
-      child: Container(
-        padding: const EdgeInsets.all(6),
-        decoration: BoxDecoration(
-          color: color ?? AppPaint.BLUE_DARK,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Text(
-          label ?? AppText.ADD_TODO,
-          style: const TextStyle().buttonMainTextStyleExtension,
+    return SizedBox(
+      child: GestureDetector(
+        onTap: ontap ??
+            () {
+              debugPrint('check call');
+            },
+        child: SizedBox(
+          child: Container(
+            padding: const EdgeInsets.all(4),
+            decoration: BoxDecoration(
+              color: color ?? AppPaint.BLUE_DARK,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(
+              label ?? AppText.ADD_TODO,
+              style: const TextStyle().buttonMainTextStyleExtension,
+            ),
+          ),
         ),
       ),
     );

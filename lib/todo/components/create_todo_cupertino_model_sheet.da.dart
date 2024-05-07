@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/bloc/bloc_export.dart';
 import 'package:todo_app/const/const_extention.dart';
+import 'package:todo_app/data/model/todo_isar_db_model.dart';
 import 'package:todo_app/repository/create_todo_repo.dart';
 import 'package:todo_app/utils/utils_export.dart';
 
 class TodoConstruct {
   final TextEditingController _textEditingController = TextEditingController();
-  final _createTodoRepo = CreateTodoRepo();
+  final TodoIsarDbModel _todoIsarDbModel = TodoIsarDbModel();
+
   void createTodoCupertinoModelSheet(BuildContext context) =>
       showCupertinoModalPopup(
         context: context,
@@ -46,23 +50,26 @@ class TodoConstruct {
                 children: [
                   CustomSecondryButton(
                     ontap: () {
+                      Navigator.pop(context);
                       debugPrint('CHECK CALL FOR CANCEL !');
                     },
                     label: AppText.CANCEL,
                     color: AppPaint.RED_DARK,
                   ),
-
                   CustomSecondryButton(
-                    ontap: () async {
-                      await _createTodoRepo
-                          .addTodoRepo(_textEditingController.text);
-                      debugPrint('tFieldVal: ${_textEditingController.text}');
+                    ontap: () {
+                      // add data to variable
+                      TodoIsarDbModel todo = TodoIsarDbModel()
+                        ..todoFieldValue = _textEditingController.text;
+                      // store data
+                      context.read<NoteBloc>().add(CreateTodoEvent(todo));
+                      // after store data then exite.
+                      debugPrint(
+                          'todoDB-> id: ${todo.id}, todoFieldValue: ${todo.todoFieldValue}');
                       debugPrint('CHECK CALL FOR ADD TODO !');
                     },
                     label: AppText.ADD_TODO,
                   )
-                  // CupertinoFilledButton(),
-                  // CupertinoFilledButton(),
                 ],
               ).padHorizontal(horizontal: 20),
             ],

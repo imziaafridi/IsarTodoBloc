@@ -13,27 +13,26 @@ class TodoIsarDbCrud {
     );
   }
 
-  // final todo = isar.todoIsarDbModels;
-
 // create todo
-  Future<void> createTodo(String value) async {
-    final todo = TodoIsarDbModel()..todoFieldValue = value;
+  Future<void> createTodo(TodoIsarDbModel todo) async {
+    // final todo = TodoIsarDbModel()..todoFieldValue = value;
     await isar.writeTxn(
       () async => await isar.todoIsarDbModels.put(todo),
     );
-    await readTodo();
   }
 
   // read todo
-  final List<TodoIsarDbModel> currentTodo = [];
-  Future<void> readTodo() async {
-    // final todoCollection = isar.collection<TodoIsarDbModel>();
-    final fetchTodo = await isar.todoIsarDbModels.where().findAll();
-    currentTodo.clear();
-    currentTodo.addAll(fetchTodo);
-  }
-  // update
 
+  // List<TodoIsarDbModel> currentTodo = [];
+  Future<List<TodoIsarDbModel>> readTodo() async {
+    // final todoCollection = isar.collection<TodoIsarDbModel>();
+    var fetchTodo = await isar.todoIsarDbModels.where().findAll();
+    return fetchTodo;
+    // currentTodo.clear();
+    // currentTodo.addAll(fetchTodo);
+  }
+
+  // update
   Future<void> updateTodo(int id, String todo) async {
     final existingTodo = await isar.todoIsarDbModels.get(id);
     if (existingTodo != null) {
@@ -42,11 +41,14 @@ class TodoIsarDbCrud {
     await isar.writeTxn(
       () async => await isar.todoIsarDbModels.put(existingTodo!),
     );
-    await readTodo();
-
-    // delete
-    Future<void> deleteTodo(int id) async {
-      await isar.todoIsarDbModels.delete(id);
-    }
   }
-}
+
+  // delete
+  Future<bool> deleteTodo(int id) async {
+    bool d = await isar.writeTxn(
+      () async => await isar.todoIsarDbModels.delete(id),
+    );
+    // bool d = await isar.todoIsarDbModels.delete(id);
+    return d;
+  }
+}// class closed !
