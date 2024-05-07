@@ -1,16 +1,19 @@
-# todo_app
+# ISAR TODO APP
 
-A new Flutter project.
+The purpose of this project to demonstration how local storage works by using Isar DB.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+# Demo
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<table>
+  <tr>
+    <td>Home</td>
+    <td>Create</td>
+    <td>Todo List</td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/imziaurrehman/ISARTodoApp/assets/67980329/99685548-ab52-46e2-b5e4-b3086a9d73da" width=270 height=520></td>
+    <td><img src="https://github.com/imziaurrehman/ISARTodoApp/assets/67980329/0ff455e9-23e2-47bf-ba17-655ca46d690d" width=270 height=520></td>
+   <td><img src="https://github.com/imziaurrehman/ISARTodoApp/assets/67980329/8b53001e-0451-43a4-bf9f-b17e2cc391c7" width=270 height=520></td>  
+  </tr>
+</table>
