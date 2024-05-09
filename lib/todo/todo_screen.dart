@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todo_app/bloc/bloc_export.dart';
@@ -67,39 +68,40 @@ class _TodoScreenState extends State<TodoScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const CustomText(
-              text: 'Todo Pending',
+              text: 'Todo Tasks',
             ),
             8.ph,
             SizedBox(
-              height: mQuerySize.height / 2.1,
+              // color: AppPaint.YELLOW_LIGHT,
+              height: mQuerySize.height / 1.33,
               width: double.infinity,
               child: TodoPendingView(tFieldVal: _tFieldVal),
             ),
-            // todo done
-            6.ph,
-            const Divider(
-              color: AppPaint.BLUE_DARK,
-              thickness: .6,
-            ),
-            4.ph,
 
-            const CustomText(
-              text: 'Todo Done',
-            ),
-            8.ph,
-            SizedBox(
-              height: mQuerySize.height / 3.7,
-              child: ListView.builder(
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return Container(
-                    height: 40,
-                    width: double.infinity,
-                    color: AppPaint.GREY_LIGHT,
-                  ).padBottom(pad: 10);
-                },
-              ),
-            ),
+            // todo done
+            // 6.ph,
+            // const Divider(
+            //   color: AppPaint.BLUE_DARK,
+            //   thickness: .6,
+            // ),
+            // 4.ph,
+            // const CustomText(
+            //   text: 'Todo Done',
+            // ),
+            // 8.ph,
+            // SizedBox(
+            //   height: mQuerySize.height / 3.7,
+            //   child: ListView.builder(
+            //     itemCount: 10,
+            //     itemBuilder: (context, index) {
+            //       return Container(
+            //         height: 40,
+            //         width: double.infinity,
+            //         color: AppPaint.GREY_LIGHT,
+            //       ).padBottom(pad: 10);
+            //     },
+            //   ),
+            // ),
           ],
         ).padOnly(left: 20, right: 20, top: 20, bottom: 0),
       ),
