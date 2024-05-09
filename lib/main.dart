@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/bloc/bloc_export.dart';
@@ -31,6 +32,35 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
+
+
+
+// hello, im creating beautiful custom tab bar for you. so lets start.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // class PendingTasks extends StatelessWidget {
 //   const PendingTasks({super.key});
 
@@ -40,11 +70,4 @@ class MyApp extends StatelessWidget {
 //   }
 // }
 
-// class DoneTasks extends StatelessWidget {
-//   const DoneTasks({super.key});
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return const Placeholder();
-//   }
-// }
