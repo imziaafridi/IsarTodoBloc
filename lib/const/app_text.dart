@@ -10,4 +10,6 @@ class AppText {
   static const SAVE_TODO = 'SAVE TODO';
   static const TODO = 'TODO';
   static const CANCEL = 'CANCEL';
+  static const EDIT_TODO = 'EDIT TODO';
+  static const DELETE_TODO = 'DELET TODO';
 }
