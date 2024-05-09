@@ -17,8 +17,13 @@ const TodoIsarDbModelSchema = CollectionSchema(
   name: r'TodoIsarDbModel',
   id: -3219348281862007283,
   properties: {
-    r'todoFieldValue': PropertySchema(
+    r'isTodoDone': PropertySchema(
       id: 0,
+      name: r'isTodoDone',
+      type: IsarType.bool,
+    ),
+    r'todoFieldValue': PropertySchema(
+      id: 1,
       name: r'todoFieldValue',
       type: IsarType.string,
     )
@@ -58,7 +63,8 @@ void _todoIsarDbModelSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.todoFieldValue);
+  writer.writeBool(offsets[0], object.isTodoDone);
+  writer.writeString(offsets[1], object.todoFieldValue);
 }
 
 TodoIsarDbModel _todoIsarDbModelDeserialize(
@@ -69,7 +75,8 @@ TodoIsarDbModel _todoIsarDbModelDeserialize(
 ) {
   final object = TodoIsarDbModel();
   object.id = id;
-  object.todoFieldValue = reader.readStringOrNull(offsets[0]);
+  object.isTodoDone = reader.readBool(offsets[0]);
+  object.todoFieldValue = reader.readStringOrNull(offsets[1]);
   return object;
 }
 
@@ -81,6 +88,8 @@ P _todoIsarDbModelDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
+      return (reader.readBool(offset)) as P;
+    case 1:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -234,6 +243,16 @@ extension TodoIsarDbModelQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<TodoIsarDbModel, TodoIsarDbModel, QAfterFilterCondition>
+      isTodoDoneEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isTodoDone',
+        value: value,
       ));
     });
   }
@@ -402,6 +421,20 @@ extension TodoIsarDbModelQueryLinks
 extension TodoIsarDbModelQuerySortBy
     on QueryBuilder<TodoIsarDbModel, TodoIsarDbModel, QSortBy> {
   QueryBuilder<TodoIsarDbModel, TodoIsarDbModel, QAfterSortBy>
+      sortByIsTodoDone() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isTodoDone', Sort.asc);
+    });
+  }
+
+  QueryBuilder<TodoIsarDbModel, TodoIsarDbModel, QAfterSortBy>
+      sortByIsTodoDoneDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isTodoDone', Sort.desc);
+    });
+  }
+
+  QueryBuilder<TodoIsarDbModel, TodoIsarDbModel, QAfterSortBy>
       sortByTodoFieldValue() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'todoFieldValue', Sort.asc);
@@ -431,6 +464,20 @@ extension TodoIsarDbModelQuerySortThenBy
   }
 
   QueryBuilder<TodoIsarDbModel, TodoIsarDbModel, QAfterSortBy>
+      thenByIsTodoDone() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isTodoDone', Sort.asc);
+    });
+  }
+
+  QueryBuilder<TodoIsarDbModel, TodoIsarDbModel, QAfterSortBy>
+      thenByIsTodoDoneDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isTodoDone', Sort.desc);
+    });
+  }
+
+  QueryBuilder<TodoIsarDbModel, TodoIsarDbModel, QAfterSortBy>
       thenByTodoFieldValue() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'todoFieldValue', Sort.asc);
@@ -448,6 +495,13 @@ extension TodoIsarDbModelQuerySortThenBy
 extension TodoIsarDbModelQueryWhereDistinct
     on QueryBuilder<TodoIsarDbModel, TodoIsarDbModel, QDistinct> {
   QueryBuilder<TodoIsarDbModel, TodoIsarDbModel, QDistinct>
+      distinctByIsTodoDone() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isTodoDone');
+    });
+  }
+
+  QueryBuilder<TodoIsarDbModel, TodoIsarDbModel, QDistinct>
       distinctByTodoFieldValue({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'todoFieldValue',
@@ -461,6 +515,12 @@ extension TodoIsarDbModelQueryProperty
   QueryBuilder<TodoIsarDbModel, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<TodoIsarDbModel, bool, QQueryOperations> isTodoDoneProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isTodoDone');
     });
   }
 

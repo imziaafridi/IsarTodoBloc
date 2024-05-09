@@ -31,20 +31,20 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class PendingTasks extends StatelessWidget {
-  const PendingTasks({super.key});
+// class PendingTasks extends StatelessWidget {
+//   const PendingTasks({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return const Placeholder();
+//   }
+// }
 
-class DoneTasks extends StatelessWidget {
-  const DoneTasks({super.key});
+// class DoneTasks extends StatelessWidget {
+//   const DoneTasks({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return const Placeholder();
+//   }
+// }

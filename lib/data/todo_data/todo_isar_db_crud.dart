@@ -32,7 +32,7 @@ class TodoIsarDbCrud {
     // currentTodo.addAll(fetchTodo);
   }
 
-  // update
+  // edit value
   Future<void> updateTodo(int id, String todo) async {
     final existingTodo = await isar.todoIsarDbModels.get(id);
     if (existingTodo != null) {
@@ -50,5 +50,16 @@ class TodoIsarDbCrud {
     );
     // bool d = await isar.todoIsarDbModels.delete(id);
     return d;
+  }
+
+  // // updateCheckbox vl
+  Future<void> updateTodoChecker(TodoIsarDbModel todo) async {
+    final existingTodo = await isar.todoIsarDbModels.get(todo.id);
+    if (existingTodo != null) {
+      existingTodo.isTodoDone = todo.isTodoDone;
+    }
+    await isar.writeTxn(
+      () async => await isar.todoIsarDbModels.put(existingTodo!),
+    );
   }
 }// class closed !

@@ -3,8 +3,9 @@
 part of 'note_bloc.dart';
 
 abstract class NoteEvent extends Equatable {
-  NoteEvent({this.todo});
+  NoteEvent({this.todo, this.isTodoDone = false});
   TodoIsarDbModel? todo;
+  bool isTodoDone;
 
   @override
   List<Object> get props => [todo!];
@@ -28,4 +29,10 @@ class UpdateTodoEvent extends NoteEvent {
 // remove
 class DeleteTodoEvent extends NoteEvent {
   DeleteTodoEvent(TodoIsarDbModel todo) : super(todo: todo);
+}
+
+// is todo done or not bool val
+
+class UpdateTodoCheckerEvent extends NoteEvent {
+  UpdateTodoCheckerEvent(TodoIsarDbModel todo) : super(todo: todo);
 }
