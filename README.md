@@ -17,3 +17,6 @@ The purpose of this project to demonstration how local storage works by using Is
    <td><img src="https://github.com/imziaurrehman/ISARTodoApp/assets/67980329/8b53001e-0451-43a4-bf9f-b17e2cc391c7" width=270 height=520></td>  
   </tr>
 </table>
+
+# TODO GIF
+![](https://github.com/imziaurrehman/ISARTodoApp/blob/main/assets/gif/TODO.gif)
