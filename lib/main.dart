@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/bloc/bloc_export.dart';
@@ -21,7 +22,11 @@ class MyApp extends StatelessWidget {
     return BlocProvider<NoteBloc>(
       create: (context) => NoteBloc(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: AppText.TODO,
+        scrollBehavior: const MaterialScrollBehavior().copyWith(
+          dragDevices: {PointerDeviceKind.mouse},
+        ),
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,

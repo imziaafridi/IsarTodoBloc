@@ -27,6 +27,7 @@ class _TodoScreenState extends State<TodoScreen> {
     context.read<NoteBloc>().add(
           FetchTodoEvent(),
         );
+    // todo done task widget clc
   }
 
   final TextEditingController _tFieldVal = TextEditingController();
@@ -47,16 +48,9 @@ class _TodoScreenState extends State<TodoScreen> {
         resizeToAvoidBottomInset: false,
         backgroundColor: AppPaint.WHITE,
         appBar: AppBar(
-          title: Container(
-            // margin: EdgeInsets.symmetric(vertical: 10),
-            decoration: const BoxDecoration(
-                border: Border.symmetric(
-                    horizontal:
-                        BorderSide(color: AppPaint.BLUE_DARK, width: .76))),
-            child: Text(
-              AppText.TODO,
-              style: const TextStyle().appBarTextStyleExtenson,
-            ),
+          title: TodoAppBarLogo(
+            mQuerySize: mQuerySize,
+            image: 'assets/icons/todo-logo-01.png',
           ),
           centerTitle: true,
 
@@ -70,22 +64,43 @@ class _TodoScreenState extends State<TodoScreen> {
                 margin: const EdgeInsets.symmetric(horizontal: 10),
                 height: mQuerySize.height / 18,
                 decoration: BoxDecoration(
-                    color: AppPaint.GREY_LIGHT,
+                    // color: Color.fromRGBO(0, 0, 0, 0.345),
+                    gradient: const LinearGradient(colors: [
+                      // AppPaint.RED_DARK,
+                      // AppPaint.BLACK,
+                      AppPaint.PURPLE_LIGHT,
+                      AppPaint.AMBER_LIGHT
+                    ], begin: Alignment.centerLeft, end: Alignment.bottomRight),
                     borderRadius: BorderRadius.circular(10)),
                 child: TabBar(
-                  indicatorColor: AppPaint.TRANSPARENT,
+                  unselectedLabelColor: AppPaint.GREY_LIGHT,
+                  unselectedLabelStyle:
+                      const TextStyle().bodyMulishTextStyleExtension,
+                  dividerColor: AppPaint.TRANSPARENT,
+                  labelColor: AppPaint.YELLOW_LIGHT,
+                  labelStyle: const TextStyle().bodyTextStyleExtension,
+                  labelPadding: const EdgeInsets.all(8),
                   indicatorSize: TabBarIndicatorSize.tab,
                   indicator: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: AppPaint.YELLOW_LIGHT),
+                    borderRadius: BorderRadius.circular(8),
+                    gradient: const LinearGradient(colors: [
+                      // AppPaint.RED_DARK,
+                      // AppPaint.BLACK,
+                      Color.fromARGB(187, 68, 68, 255),
+                      Color.fromARGB(204, 198, 55, 45),
+                    ], begin: Alignment.centerLeft, end: Alignment.bottomRight),
+                    // color: const Color.fromARGB(174, 255, 135, 126),
+                  ),
                   tabs: const [
-                    LineDeorationText(
-                      text: 'Pending Todo',
-                      lineDecoreT: TextDecoration.none,
+                    CustomTabBarTabsDesign(
+                      value: 'Pending Todo',
+                      icon: Icons.pending,
+                      // picHt: ,
                     ),
-                    LineDeorationText(
-                      text: 'Done Todo',
-                      lineDecoreT: TextDecoration.none,
+                    CustomTabBarTabsDesign(
+                      value: 'Done Todo',
+                      image: 'assets/icons/done_todo.png',
+                      picHt: 28,
                     ),
                   ],
                 ),
@@ -95,11 +110,11 @@ class _TodoScreenState extends State<TodoScreen> {
         ),
         body: TabBarView(
           children: [
-            TodoPendingView(tFieldVal: _tFieldVal)
+            PendingTodoView(tFieldVal: _tFieldVal)
                 .padOnly(left: 10, right: 10, top: 10, bottom: 0),
             // 2nd tab
 
-            const DoneTasks(),
+            const DoneTodoView(),
           ],
         ),
 
@@ -142,8 +157,76 @@ class _TodoScreenState extends State<TodoScreen> {
   }
 }
 
-class LineDeorationText extends StatelessWidget {
-  const LineDeorationText({
+class CustomTabBarTabsDesign extends StatelessWidget {
+  const CustomTabBarTabsDesign(
+      {super.key, required this.value, this.icon, this.image, this.picHt = 24});
+
+  final String? value;
+  final IconData? icon;
+  final String? image;
+  final double? picHt;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        LineDecorText(
+          text: value ?? 'Pending Todo',
+          lineDecoreT: TextDecoration.none,
+        ),
+        if (image != null)
+          Image.asset(
+            image!,
+            height: image != null ? picHt : 0,
+            color: AppPaint.GREY_LIGHT,
+          )
+        else
+          Icon(
+            icon,
+            size: icon != null ? picHt : 0,
+            color: AppPaint.GREY_LIGHT,
+          ),
+      ],
+    );
+  }
+}
+
+class TodoAppBarLogo extends StatelessWidget {
+  const TodoAppBarLogo(
+      {super.key, required this.mQuerySize, required this.image});
+
+  final Size mQuerySize;
+  final String image;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          // margin: EdgeInsets.symmetric(vertical: 10),
+          decoration: const BoxDecoration(
+              border: Border.symmetric(
+                  horizontal:
+                      BorderSide(color: AppPaint.BLUE_DARK, width: .76))),
+          child: Text(
+            AppText.TODO,
+            style: const TextStyle().appBarTextStyleExtenson,
+          ),
+        ),
+        4.pw,
+        Image.asset(
+          'assets/icons/todo-logo-01.png',
+          height: mQuerySize.height / 26,
+        ),
+      ],
+    );
+  }
+}
+
+class LineDecorText extends StatelessWidget {
+  const LineDecorText({
     super.key,
     required this.text,
     required this.lineDecoreT,
@@ -161,71 +244,109 @@ class LineDeorationText extends StatelessWidget {
   }
 }
 
-class DoneTasks extends StatelessWidget {
-  const DoneTasks({super.key});
-
+class DoneTodoView extends StatelessWidget {
+  const DoneTodoView({super.key});
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NoteBloc, NoteState>(
       builder: (context, state) {
-        var todo = state.todo;
-        return ListView.builder(
-          itemCount: state.todo!.length,
-          itemBuilder: (context, index) {
-            if (todo![index].isTodoDone == true) {
-              return Container(
-                color: todo[index].isTodoDone == true
-                    ? AppPaint.GREY_LIGHT
-                    : AppPaint.TRANSPARENT,
-                // margin: const EdgeInsets.only(bottom: 10),
-                child: ListTile(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18),
-                  ),
+        List<TodoIsarDbModel>? todo = state.todo;
+        // Check for empty list before building ListView
+        // var b = todo!.every((element) => element.isTodoDone);
 
-                  // CHECK BOX
-
-                  leading: SizedBox(
-                      width: 20,
-                      child: Checkbox(
-                          value: todo[index].isTodoDone,
-                          onChanged: (currentBoolVal) {
-                            // todo[index].isTodoDone = currentBoolVal!;
-                            TodoIsarDbModel todoEvent = TodoIsarDbModel()
-                              ..id = todo[index].id
-                              ..isTodoDone = currentBoolVal!;
-                            context.read<NoteBloc>().add(
-                                  UpdateTodoCheckerEvent(todoEvent),
-                                );
-                          })),
-                  title: Text(
-                    todo[index].todoFieldValue!,
-                    style: TextStyle(
-                        decoration: todo[index].isTodoDone == true
-                            ? TextDecoration.lineThrough
-                            : TextDecoration.none),
+        if (state is TodoLoadingState) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (todo!.isNotEmpty) {
+          return ListView.builder(
+            itemCount: state.todo!.length,
+            itemBuilder: (context, index) {
+              if (todo[index].isTodoDone == true) {
+                return Dismissible(
+                  key: Key(todo[index].todoFieldValue!),
+                  direction: DismissDirection.down,
+                  background: const Icon(
+                    CupertinoIcons.delete,
+                    color: AppPaint.RED_DARK,
                   ),
-                  // subtitle: Text(
-                  //   'id: ${todo[index].id}',
-                  //   style: Theme.of(context).textTheme.bodySmall,
-                  // ),
-                ),
-              );
-            } else {
-              return const SizedBox(
-                width: 0,
-                height: 0,
-              );
-            }
-          },
-        );
+                  secondaryBackground: const Icon(
+                    CupertinoIcons.minus,
+                    color: AppPaint.BLUE_DARK,
+                  ),
+                  onDismissed: (d) {
+                    // delete functionality
+                    context.read<NoteBloc>().add(
+                          DeleteTodoEvent(
+                            todo[index],
+                          ),
+                        );
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Todo is deleted successfully"),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    color: todo[index].isTodoDone == true
+                        ? AppPaint.GREY_LIGHT
+                        : AppPaint.TRANSPARENT,
+                    // margin: const EdgeInsets.only(bottom: 10),
+                    child: ListTile(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+
+                      // CHECK BOX
+
+                      leading: SizedBox(
+                          width: 20,
+                          child: Checkbox(
+                              value: todo[index].isTodoDone,
+                              onChanged: (currentBoolVal) {
+                                // todo[index].isTodoDone = currentBoolVal!;
+                                TodoIsarDbModel todoEvent = TodoIsarDbModel()
+                                  ..id = todo[index].id
+                                  ..isTodoDone = currentBoolVal!;
+                                context.read<NoteBloc>().add(
+                                      UpdateTodoCheckerEvent(todoEvent),
+                                    );
+                              })),
+                      title: Text(
+                        todo[index].todoFieldValue!,
+                        style: TextStyle(
+                            decoration: todo[index].isTodoDone == true
+                                ? TextDecoration.lineThrough
+                                : TextDecoration.none),
+                      ),
+                      // subtitle: Text(
+                      //   'id: ${todo[index].id}',
+                      //   style: Theme.of(context).textTheme.bodySmall,
+                      // ),
+                    ),
+                  ).padOnly(left: 10, right: 10, top: 10, bottom: 0),
+                );
+              } else {
+                return Container();
+              }
+            },
+          );
+        } else {
+          return Center(
+            child: Image.asset(
+              'assets/icons/done_todo.png',
+              height: 200,
+              // fit: BoxFit.contain,
+            ),
+          );
+        }
       },
     );
   }
 }
 
-class TodoPendingView extends StatelessWidget {
-  TodoPendingView({
+class PendingTodoView extends StatelessWidget {
+  PendingTodoView({
     super.key,
     required TextEditingController tFieldVal,
   }) : _tFieldVal = tFieldVal;
@@ -247,7 +368,7 @@ class TodoPendingView extends StatelessWidget {
                   todo[index].isTodoDone == null) {
                 return Slidable(
                   startActionPane: ActionPane(
-                    key: Key(todo![index].todoFieldValue!),
+                    key: Key(todo[index].todoFieldValue!),
                     // dismissible: DismissiblePane(onDismissed: () {
                     //   // dismissed
 
@@ -361,7 +482,9 @@ class TodoPendingView extends StatelessWidget {
             },
           );
         } else {
-          return const NoTodoBodyView();
+          return Center(
+            child: Image.asset('assets/icons/add-todo.jpg'),
+          );
         }
       },
     );

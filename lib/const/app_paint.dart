@@ -12,4 +12,8 @@ class AppPaint {
 
   static const RED_DARK = Color.fromARGB(255, 198, 56, 45);
   static const YELLOW_LIGHT = Color.fromARGB(255, 255, 245, 157);
+  static const RED_MODERATE_LIGHT = Color.fromARGB(137, 255, 134, 126);
+
+  static const PURPLE_LIGHT = Color.fromARGB(120, 160, 126, 255);
+  static const AMBER_LIGHT = Color.fromARGB(211, 255, 193, 7);
 }
