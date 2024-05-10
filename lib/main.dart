@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/bloc/bloc_export.dart';
 import 'package:todo_app/const/const_extention.dart';
 import 'package:todo_app/data/todo_data/todo_isar_db_crud.dart';
-import 'package:todo_app/todo/todo_view_export.dart';
+import 'package:todo_app/todo_view/todo_view_export.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
